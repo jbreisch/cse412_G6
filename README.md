@@ -1,1 +1,2 @@
-# cse412_G6
+# CSE412 Flight Booking App
+### JP Breisch, Jace Jackson, Darshan Vamathevan, Devin Pike

@@ -1,6 +1,5 @@
 {% if session['logged_in'] %}
 
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,12 +17,13 @@
         <button class="btn"><a class="test" href="/myflights"><p>My Flights</p></a></button>
         <button class="btn"><a class="test" href="/logout"><p>Logout</p></a></button> 
       </div>
+      <h1>BOOK FLIGHTS</h1>
     </div>
   </body>
 </html>
 
-{% else %}
 
+{% else %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -44,6 +44,8 @@
     </div>
   </body>
 </html>
-{% endif %}
 
- 
+
+
+
+{% endif %}

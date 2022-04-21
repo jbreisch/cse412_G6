@@ -10,7 +10,7 @@
     <title>Flight App</title>
   </head>
   <body>
-    <div class="container">
+    <div class="container ">
       <h1 class="title">Flight App</h1>
       <div class="btn-container">
         <button class="btn"><a class="test" href="/book"><p>Book Flights</p></a></button>
@@ -18,6 +18,15 @@
         <button class="btn"><a class="test" href="/logout"><p>Logout</p></a></button> 
       </div>
       <h1>BOOK FLIGHTS</h1>
+      <form action="/search_flights" method="GET">
+        <label>Departure City</label>
+        <input type="text" placeholder="Departure" name="depart" required>
+
+        <label><b>Arrival City</b></label>
+        <input type="text" placeholder="Arrival" name="arrive" required>
+
+        <button type="submit">Search</button>
+      </form>
     </div>
   </body>
 </html>

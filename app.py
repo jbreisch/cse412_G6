@@ -8,7 +8,7 @@ from requests import Session
 
 app = Flask(__name__)
 Bootstrap(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://zblgrfkvbmcjoa:25c9290fe133061ad4b1afede41edbb3f2916f2c088719a0d3ec6752fdb00808@ec2-54-80-122-11.compute-1.amazonaws.com:5432/d2mh5ngopeuued'
 db = SQLAlchemy(app)
 
 #@app.route('/')
@@ -17,6 +17,7 @@ db = SQLAlchemy(app)
 
 #DB
 class Passenger(db.Model):
+  __tablename__ = 'passenger'
   passenger_ID = db.Column(db.Integer, db.ForeignKey('Book.passenger_ID'), primary_key=True)
   name = db.Column(db.String(80))
   gender = db.Column(db.String(80))
@@ -26,11 +27,24 @@ class Passenger(db.Model):
   email = db.Column(db.String(80))
   phone = db.Column(db.Sting(80))
 
+  def __init__(self, passenger_ID, name, gender, age, username, password, email, phone):
+    self.passenger_ID = passenger_ID
+    self.name = name
+    self.gender = gender
+    self.age = age
+    self.username = username
+    self.password = password
+    self.email = email
+    self.phone = phone
+
+
 class Book(db.Model):
+  __tablename__ = 'book'
   ticket_ID = db.Column(db.Integer)
   passenger_ID = db.Column(db.Integer, db.ForeignKey('Passenger.passenger_ID'), primary_key=True)
 
 class Plane_Ticket(db.Model):
+  __tablename__ = 'passenger'
   ticket_ID = db.Column(db.Integer, db.ForeignKey('corresponds.ticket_ID'), primary_key=True)
   plane_ID = db.Column(db.Integer)
   departure_city = db.Column(db.String(80))
@@ -41,16 +55,19 @@ class Plane_Ticket(db.Model):
   boarding_time = db.Column()
 
 class corresponds(db.Model):
+  __tablename__ = 'corresponds'
   ticket_ID = db.Column(db.Integer, db.ForeignKey('Seat.ticket_ID'), db.ForeignKey('Plane_Ticket.ticket_ID'), primary_key=True)
   seat_number = db.Column(db.Integer, db.ForeignKey('Book.passenger_ID'), primary_key=True)
 
 class Seat(db.Model):
+  __tablename__ = 'seat'
   ticket_ID = db.Column(db.Integer,db.ForeignKey('corresponds.ticket_ID'), primary_key=True)
   plane_ID = db.Column(db.Integer, primary_key=True)
   seat_number = db.Column(db.Integer)
   id = db.Column(db.Integer)
 
 class Plane(db.Model):
+  __tablename__ = 'plane'
   plane_ID= db.Column(db.Integer, db.ForeignKey('Seat.plane_ID'), primary_key=True)
   type = db.Column(db.String(80))
   name = db.Column(db.String(80))

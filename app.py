@@ -30,8 +30,7 @@ class Passenger(db.Model):
   email = db.Column(db.String(80))
   phone = db.Column(db.String(80))
 
-  def __init__(self, passenger_id, name, gender, age, username, password, email, phone):
-    self.passenger_id = passenger_id
+  def __init__(self, name, gender, age, username, password, email, phone):
     self.name = name
     self.gender = gender
     self.age = age
@@ -44,7 +43,7 @@ class Passenger(db.Model):
 class Book(db.Model):
   __tablename__ = 'book'
   ticket_id = db.Column(db.Integer)
-  passenger_ID = db.Column(db.Integer, primary_key=True)
+  passenger_id = db.Column(db.Integer, primary_key=True)
 
   def __init__(self, ticket_id, passenger_id):
     self.ticket_id = ticket_id
@@ -52,7 +51,7 @@ class Book(db.Model):
 
 class Plane_Ticket(db.Model):
   __tablename__ = 'ticket'
-  ticket_ID = db.Column(db.Integer, primary_key=True)
+  ticket_id = db.Column(db.Integer, primary_key=True)
   plane_ID = db.Column(db.Integer)
   departure_city = db.Column(db.String(80))
   arrival_city = db.Column(db.String(80))
@@ -62,8 +61,8 @@ class Plane_Ticket(db.Model):
   boarding_time = db.Column(db.String(80))
 
   def __init__(self, ticket_ID, plane_ID, departure_city, arrival_city, cost, departure_time, arrival_time, boarding_time):
-    self.ticket_ID = ticket_ID
-    self.plane_ID = plane_ID
+    #self.ticket_ID = ticket_ID
+    #self.plane_ID = plane_ID
     self.departure_city = departure_city
     self.arrival_city = arrival_city
     self.cost = cost
@@ -158,6 +157,30 @@ def search():
   #for i in results:
     #if ()
 
+#Sign Up
+@app.route('/register', methods=["GET", "POST"])
+def register():
+  if request.method == 'GET':
+    return(render_template('register.html'))
+  if request.method == 'POST':
+    name = request.form['name']
+    gender = request.form['gender']
+    age = request.form['age']
+    username = request.form['username']
+    password = request.form['password']
+    email = request.form['email']
+    phone = request.form['phone']
+
+    data = Passenger(name, gender, age, username, password, email, phone)
+    db.session.add(data)
+    db.session.commit()
+    session['logged_in'] = True
+    return redirect(url_for('home'))
+
+@app.route('/register_page', methods=["GET"])
+def get_register():
+  return(render_template('register.html'))
+
 
 
 @app.route('/home', methods=["GET"])
@@ -177,6 +200,57 @@ def get_booking():
 @app.route("/myflights")
 def get_my_flights():
   return(render_template('my_flights.html'))
+
+@app.route('/find_flights')
+def find_flights():
+  return render_template('book_flights.html', flights = Plane_Ticket.query.all())
+
+@app.route('/select_flight', methods=['POST', 'GET'])
+def select_flight():
+  if request.method == 'GET':
+    return render_template('book.html')
+  if request.method == 'POST':
+
+    flight_id = request.form['plane']
+    user = request.form['user']
+    passw = request.form['pass']
+
+  #from sqlalchemy.sql import and_
+  #s = select([Passenger.passenger_id]).where(and_(Passenger.c.username == user, Passenger.c.password == passw))
+
+    #query = Passenger.select()
+    result = Passenger.query.filter_by(username = user).first()
+    #result = db.session.query(Passenger).filter(Passenger.username==user).filter(Passenger.password!=passw).group_by(Passenger.passenger_id).first()
+
+    print(result.passenger_id)
+
+    data = Book(flight_id, result.passenger_id)
+    db.session.add(data)
+    db.session.commit()
+
+    return redirect(url_for('home'))
+
+@app.route('/get_booked_flights', methods=['POST','GET'])
+def get_booked_flights():
+  user = request.form['user']
+  passw = request.form['pass']
+
+  id = Passenger.query.filter_by(username = user, password = passw).first()
+  #print(id)
+  flight = Book.query.filter_by(passenger_id = id.passenger_id).first()
+  #print(flight)
+  result = Plane_Ticket.query.filter_by(ticket_id = flight.ticket_id).first()
+  #return str(result.ticket_id)
+  return render_template('my_flights.html', flights = result)
+
+@app.route('/search_user_flights')
+def search_user_flights():
+  return(render_template('search_my_flights.html'))
+
+
+
+
+
 
 
 if __name__ == '__main__':

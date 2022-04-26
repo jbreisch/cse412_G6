@@ -1,5 +1,4 @@
 {% if session['logged_in'] %}
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,57 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="../static/style.css" />
-    <title>Flight App</title>
   </head>
   <body>
-    <div class="container ">
+    <div class="container">
       <h1 class="title">Flight App</h1>
       <div class="btn-container">
         <button class="btn"><a class="test" href="/find_flights"><p>Book Flights</p></a></button>
         <button class="btn"><a class="test" href="/search_user_flights"><p>My Flights</p></a></button>
         <button class="btn"><a class="test" href="/logout"><p>Logout</p></a></button> 
       </div>
-      <h1>BOOK FLIGHTS</h1>
-      <!--<form action="/search_flights" method="GET">
-        <label>Departure City</label>
-        <input type="text" placeholder="Departure" name="depart" required>
-
-        <label><b>Arrival City</b></label>
-        <input type="text" placeholder="Arrival" name="arrive" required>
-
-        <button type="submit">Search</button>
-      </form> -->
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Departure City</th>
-            <th>Departure Time</th>
-            <th>Arrival City</th>
-            <th>Arrival Time</th>
-            <th>Boarding Time</th>
-            <th>Cost</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {% for flight in flights %}
-            <tr>
-              <td>{{ flight.ticket_id }}</td>
-              <td>{{ flight.departure_city }}</td>
-              <td>{{ flight.departure_time }}</td>
-              <td>{{ flight.arrival_city }}</td>
-              <td>{{ flight.arrival_time }}</td>
-              <td>{{ flight.boarding_time }}</td>
-              <td>{{ flight.cost }}</td>
-
-            </tr>
-
-          {% endfor %}
-        </tbody>
-      </table>
-      <br>
-      <button class=""><a class="black" href="/select_flight"><p>Book</p></a></button> 
+      <h3>Please Enter Desired Flight ID and Authenticate!</h3>
+      <br />
+      <form action="/select_flight" method="POST">
+        <h4>Flight ID</h4>
+        <input type="number" required     name="plane" />
+        <h4>Username</h4>
+        <input type="text" required name="user" />
+        <h4>Password</h4>
+        <input type="text" required name="pass" />
+        <input type="submit" value="Book" />
+      </form>
 
     </div>
   </body>

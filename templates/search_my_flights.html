@@ -1,5 +1,4 @@
 {% if session['logged_in'] %}
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="../static/style.css" />
-    <title>Flight App</title>
   </head>
   <body>
     <div class="container">
@@ -18,34 +16,16 @@
           <button class="btn"><a class="test" href="/search_user_flights"><p>My Flights</p></a></button>
         <button class="btn"><a class="test" href="/logout"><p>Logout</p></a></button> 
       </div>
-      <h1>MY FLIGHTS</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Departure City</th>
-            <th>Departure Time</th>
-            <th>Arrival City</th>
-            <th>Arrival Time</th>
-            <th>Boarding Time</th>
-            <th>Cost</th>
-          </tr>
-        </thead>
+      <h3>Please Authenticate to View!</h3>
+      <br />
+      <form action="/get_booked_flights" method="POST">
+        <h4>Username</h4>
+        <input type="text" required name="user" />
+        <h4>Password</h4>
+        <input type="text" required name="pass" />
+        <input type="submit" value="View" />
+      </form>
 
-        <tbody>
-            <tr>
-              <td>{{ flights.ticket_id }}</td>
-              <td>{{ flights.departure_city }}</td>
-              <td>{{ flights.departure_time }}</td>
-              <td>{{ flights.arrival_city }}</td>
-              <td>{{ flights.arrival_time }}</td>
-              <td>{{ flights.boarding_time }}</td>
-              <td>{{ flights.cost }}</td>
-
-            </tr>
-
-        </tbody>
-      </table>
     </div>
   </body>
 </html>
